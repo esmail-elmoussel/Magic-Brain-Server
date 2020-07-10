@@ -1,0 +1,28 @@
+version: "3.6"
+
+services:
+  # Backend API
+  magic-brain-api:
+    container_name: backend
+    build: ./
+    command: npm start
+    working_dir: /usr/src/magic-brain-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/magic-brain-api
+    environment:
+      POSTGRES_URI: postgres://esmail:123456@postgres:5432/magic-brain-docker
+    links:
+      - postgres
+
+  # Postgres
+  postgres:
+    environment:
+      POSTGRES_USER: esmail
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: magic-brain-docker
+      POSTGRES_HOST: postgres
+    build: ./postgres
+    ports:
+      - "5432:5432"
